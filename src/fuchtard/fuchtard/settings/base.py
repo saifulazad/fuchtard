@@ -93,11 +93,10 @@ WSGI_APPLICATION = 'fuchtard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fuchtard',
-        'USER': 'fuchtard',
-        'PASSWORD': 'fuchtard',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -130,7 +129,7 @@ STATICFILES_DIRS = [
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'webpack_bundles/',
-        'STATS_FILE': os.path.join(BASE_DIR, '..', '..', 'webpack-stats.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, '..', '..', 'webpack_bundles', 'webpack-stats.json'),
     },
 }
 
