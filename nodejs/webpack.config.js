@@ -17,7 +17,7 @@ module.exports = {
         publicPath: '/static/webpack_bundles/'
     },
     plugins: [
-        new BundleTracker({filename: './webpack-stats.json'}),
+        new BundleTracker({filename: './webpack_bundles/webpack-stats.json'}),
         new ExtractTextPlugin("[name]-[hash].css", {
             allChunks: true
         }),

@@ -1,0 +1,51 @@
+version: '2'
+
+volumes:
+  web:
+  webpack_bundles:
+  static_content:
+
+services:
+  db:
+    restart: always
+    image: postgres
+
+  nodejs:
+    build: ./nodejs/
+    volumes:
+      - webpack_bundles:/usr/web/webpack_bundles/
+#      - web:/usr/web
+
+  django:
+    build: ./src/
+    volumes:
+#      - web:/usr/web
+      - webpack_bundles:/usr/web/webpack_bundles/
+#      - static_content:/usr/web/static_content
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - nodejs
+    entrypoint:
+#      python fuchtard/manage.py migrate
+      /usr/local/bin/gunicorn -b 0.0.0.0:8000 --env DJANGO_SETTINGS_MODULE=fuchtard.settings.dev -w 2 fuchtard.wsgi
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes:
+      - static_content:/usr/web/static_content:ro
+    depends_on:
+      - django
+
+
+  #redis:
+  #  restart: always
+  #  image: redis:latest
+  #  ports:
+  #    - "6379:6379"
+  #  volumes:
+  #    - redisdata:/data
